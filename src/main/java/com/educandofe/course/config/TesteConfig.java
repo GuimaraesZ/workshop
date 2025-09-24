@@ -1,4 +1,4 @@
-package com.educandofe.course.config;
+/*package com.educandofe.course.config;
 
 import java.util.Arrays;
 
@@ -31,3 +31,4 @@ public class TesteConfig  implements CommandLineRunner {
 
     
 }
+*/
