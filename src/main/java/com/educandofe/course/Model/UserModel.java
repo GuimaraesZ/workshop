@@ -5,7 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_user")
@@ -20,6 +24,10 @@ public class UserModel implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    private List<OrderModel> orders = new ArrayList<>();
 
     public UserModel() {
     }
@@ -61,7 +69,11 @@ public class UserModel implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public List<OrderModel> getOrders() {
+        return orders;
+    }
+
     @Override
     public int hashCode() {
         
@@ -87,6 +99,10 @@ public class UserModel implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    public void setOrders(List<OrderModel> orders) {
+        this.orders = orders;
     }
 
     
