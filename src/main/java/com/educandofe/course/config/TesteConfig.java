@@ -13,6 +13,8 @@ import com.educandofe.course.Model.UserModel;
 
 import org.springframework.boot.CommandLineRunner;
 
+import com.educandofe.course.Model.Enums.OrderStatus;
+
 
 @Configuration
 public class TesteConfig  implements CommandLineRunner {
@@ -33,9 +35,9 @@ public class TesteConfig  implements CommandLineRunner {
        userRepository.saveAll(Arrays.asList(u1, u2, u3));
        
        // Depois, criar os pedidos usando os usuários
-       OrderModel o1 = new OrderModel(null, LocalDateTime.of(2019, 6, 20, 16, 53), u1);
-       OrderModel o2 = new OrderModel(null, LocalDateTime.of(2019, 7, 21, 3, 42), u2);
-       OrderModel o3 = new OrderModel(null, LocalDateTime.of(2019, 7, 22, 15, 21), u1);
+       OrderModel o1 = new OrderModel(null, LocalDateTime.of(2019, 6, 20, 16, 53),OrderStatus.PAID, u1);
+       OrderModel o2 = new OrderModel(null, LocalDateTime.of(2019, 7, 21, 3, 42),OrderStatus.DELIVERED, u2);
+       OrderModel o3 = new OrderModel(null, LocalDateTime.of(2019, 7, 22, 15, 21),OrderStatus.WAITING_PAYMENT, u1);
 
        orderRepository.saveAll(Arrays.asList(o1, o2, o3));
    }

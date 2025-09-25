@@ -14,7 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.educandofe.course.Model.Enums.OrderStatus;
 
 @Entity
 @Table(name = "tb_order")
@@ -29,6 +29,8 @@ public class OrderModel implements Serializable {
     @Column(name = "moment", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDateTime moment;
 
+    private Integer orderStatus;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -37,9 +39,10 @@ public class OrderModel implements Serializable {
     public OrderModel() {
     }
 
-    public OrderModel(Long id, LocalDateTime moment, UserModel client) {
+    public OrderModel(Long id, LocalDateTime moment, OrderStatus orderStatus, UserModel client) {
         this.id = id;
         this.moment = moment;
+        setOrderStatus(orderStatus);
         this.client = client;
     }
     public OrderModel(Long id, LocalDateTime moment) {
@@ -61,6 +64,17 @@ public class OrderModel implements Serializable {
 
     public void setMoment(LocalDateTime moment) {
         this.moment = moment;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if(orderStatus != null){
+
+            this.orderStatus = orderStatus.getCode();
+        }
     }
 
     public UserModel getClient() {
