@@ -10,6 +10,9 @@ import com.educandofe.course.repositorys.OrderRepository;
 import com.educandofe.course.repositorys.UserRepository;
 import com.educandofe.course.Model.OrderModel;
 import com.educandofe.course.Model.UserModel;
+import com.educandofe.course.repositorys.CategoryRepository;
+import com.educandofe.course.Model.CategoryModel;
+
 
 import org.springframework.boot.CommandLineRunner;
 
@@ -25,9 +28,20 @@ public class TesteConfig  implements CommandLineRunner {
    @Autowired
    private UserRepository userRepository;
 
+   @Autowired
+   private CategoryRepository categoryRepository;
+
    @Override
    public void run(String... args) throws Exception {
-       // Primeiro, criar e salvar os usuários
+
+        // Criar categorias
+        CategoryModel cat1 = new CategoryModel(null, "Electronics");
+        CategoryModel cat2 = new CategoryModel(null, "Books");
+        CategoryModel cat3 = new CategoryModel(null, "Computers");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
+       // criar e salvar os usuários
        UserModel u1 = new UserModel(null, "John Doe", "john@gmail.com", "123456789", "123456");
        UserModel u2 = new UserModel(null, "Maria Silva", "maria@gmail.com", "987654321", "654321");
        UserModel u3 = new UserModel(null, "Pedro Santos", "pedro@gmail.com", "555666777", "789123");
