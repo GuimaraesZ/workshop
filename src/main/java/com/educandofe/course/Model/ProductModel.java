@@ -1,19 +1,16 @@
 package com.educandofe.course.Model;
 
-
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-
 import java.io.Serializable;
-
-
+import java.util.Set;
+import java.util.HashSet;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "tb_product")
@@ -28,10 +25,11 @@ public class ProductModel implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private CategoryModel category;
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<CategoryModel> categories = new HashSet<>();
 
     public ProductModel() {
 
@@ -83,13 +81,11 @@ public class ProductModel implements Serializable {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-    public CategoryModel getCategory() {
-        return category;
+    
+    public Set<CategoryModel> getCategories() {
+        return categories;
     }
 
-    public void setCategory(CategoryModel category) {
-        this.category = category;
-    }
 
     @Override
     public int hashCode() {

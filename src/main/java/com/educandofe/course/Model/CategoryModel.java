@@ -1,14 +1,19 @@
 package com.educandofe.course.Model;
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.OneToMany;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashSet;
+
+import jakarta.persistence.ManyToMany;
 @Entity
 @Table(name = "tb_category")
 public class CategoryModel implements Serializable {
@@ -19,9 +24,9 @@ public class CategoryModel implements Serializable {
     private Long id;
     private String name;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "category")
-    private List<ProductModel> products;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
+    private Set<ProductModel> products = new HashSet<>();
 
     public CategoryModel() {
         super();
@@ -47,7 +52,11 @@ public class CategoryModel implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public Set<ProductModel> getProducts() {
+        return products;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

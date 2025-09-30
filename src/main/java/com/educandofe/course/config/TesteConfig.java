@@ -47,16 +47,21 @@ public class TesteConfig  implements CommandLineRunner {
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 
         // Criar produtos
-        ProductModel p1 = new ProductModel(null, "Smartphone", "Latest model smartphone", 799.99, "https://example.com/smartphone.jpg");
-        ProductModel p2 = new ProductModel(null, "Book", "Interesting book", 29.99, "https://example.com/book.jpg");
-        ProductModel p3 = new ProductModel(null, "Laptop", "Powerful laptop", 1299.99, "https://example.com/laptop.jpg");
+        ProductModel p1 = new ProductModel(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        ProductModel p2 = new ProductModel(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+        ProductModel p3 = new ProductModel(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+        ProductModel p4 = new ProductModel(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+        ProductModel p5 = new ProductModel(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
 
-        // Definir categorias para os produtos
-        p1.setCategory(cat1);
-        p2.setCategory(cat2);
-        p3.setCategory(cat3);
-
-        productRepository.saveAll(Arrays.asList(p1, p2, p3));
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+        
+         p1.getCategories().add(cat2);
+         p2.getCategories().add(cat1);
+         p2.getCategories().add(cat3);
+         p3.getCategories().add(cat3);
+         p4.getCategories().add(cat3);
+         p5.getCategories().add(cat2);
+         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
        // criar e salvar os usuários
        UserModel u1 = new UserModel(null, "John Doe", "john@gmail.com", "123456789", "123456");

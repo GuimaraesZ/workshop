@@ -2,14 +2,12 @@ package com.educandofe.course;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan("com.educandofe.course.Model")
-public class CourseApplication {
+public class Main {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CourseApplication.class, args);
+		SpringApplication.run(Main.class, args);
 	}
 
 }
