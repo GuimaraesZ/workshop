@@ -17,6 +17,8 @@ import com.educandofe.course.Model.CategoryModel;
 import org.springframework.boot.CommandLineRunner;
 
 import com.educandofe.course.Model.Enums.OrderStatus;
+import com.educandofe.course.repositorys.ProductRepository;
+import com.educandofe.course.Model.ProductModel;
 
 
 @Configuration
@@ -31,6 +33,9 @@ public class TesteConfig  implements CommandLineRunner {
    @Autowired
    private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
    @Override
    public void run(String... args) throws Exception {
 
@@ -40,6 +45,18 @@ public class TesteConfig  implements CommandLineRunner {
         CategoryModel cat3 = new CategoryModel(null, "Computers");
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
+        // Criar produtos
+        ProductModel p1 = new ProductModel(null, "Smartphone", "Latest model smartphone", 799.99, "https://example.com/smartphone.jpg");
+        ProductModel p2 = new ProductModel(null, "Book", "Interesting book", 29.99, "https://example.com/book.jpg");
+        ProductModel p3 = new ProductModel(null, "Laptop", "Powerful laptop", 1299.99, "https://example.com/laptop.jpg");
+
+        // Definir categorias para os produtos
+        p1.setCategory(cat1);
+        p2.setCategory(cat2);
+        p3.setCategory(cat3);
+
+        productRepository.saveAll(Arrays.asList(p1, p2, p3));
 
        // criar e salvar os usuários
        UserModel u1 = new UserModel(null, "John Doe", "john@gmail.com", "123456789", "123456");

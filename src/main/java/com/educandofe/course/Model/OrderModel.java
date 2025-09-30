@@ -13,8 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.educandofe.course.Model.Enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "tb_order")
@@ -31,7 +32,7 @@ public class OrderModel implements Serializable {
 
     private Integer orderStatus;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private UserModel client;

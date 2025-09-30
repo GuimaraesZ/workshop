@@ -7,9 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 import java.util.List;
 import java.util.ArrayList;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "tb_user")
@@ -25,7 +27,7 @@ public class UserModel implements Serializable {
     private String phone;
     private String password;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<OrderModel> orders = new ArrayList<>();
 
