@@ -7,8 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 
@@ -30,6 +34,9 @@ public class ProductModel implements Serializable {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<CategoryModel> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItemModel> items = new HashSet<>();
 
     public ProductModel() {
 
@@ -81,9 +88,18 @@ public class ProductModel implements Serializable {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-    
+
     public Set<CategoryModel> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<OrderModel> getOrders() {
+        Set<OrderModel> set = new HashSet<>();
+        for (OrderItemModel x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
 
