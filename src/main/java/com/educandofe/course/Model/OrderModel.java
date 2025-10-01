@@ -12,10 +12,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.educandofe.course.Model.Enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.Set;
+import java.util.HashSet;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "tb_order")
@@ -32,10 +36,12 @@ public class OrderModel implements Serializable {
 
     private Integer orderStatus;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private UserModel client;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItemModel> items = new HashSet<>();
 
     public OrderModel() {
     }
@@ -84,6 +90,10 @@ public class OrderModel implements Serializable {
 
     public void setClient(UserModel client) {
         this.client = client;
+    }
+
+    public Set<OrderItemModel> getItems() {
+        return items;
     }
 
     @Override

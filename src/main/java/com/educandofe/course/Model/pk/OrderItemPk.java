@@ -5,6 +5,7 @@ import jakarta.persistence.JoinColumn;
 
 import com.educandofe.course.Model.OrderModel;
 import com.educandofe.course.Model.ProductModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.ManyToOne;
 
 @Embeddable
@@ -19,7 +20,7 @@ public class OrderItemPk implements Serializable {
     @JoinColumn(name = "product_id")
     private ProductModel product;
 
-
+    @JsonIgnore
     public OrderModel getOrder() {
         return order;
     }

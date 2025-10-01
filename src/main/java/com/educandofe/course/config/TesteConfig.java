@@ -19,6 +19,9 @@ import org.springframework.boot.CommandLineRunner;
 import com.educandofe.course.Model.Enums.OrderStatus;
 import com.educandofe.course.repositorys.ProductRepository;
 import com.educandofe.course.Model.ProductModel;
+import com.educandofe.course.Model.OrderItemModel;
+import com.educandofe.course.repositorys.OrderItemRepository;
+
 
 
 @Configuration
@@ -33,8 +36,11 @@ public class TesteConfig  implements CommandLineRunner {
    @Autowired
    private CategoryRepository categoryRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+   @Autowired
+   private ProductRepository productRepository;
+
+   @Autowired
+   private OrderItemRepository orderItemRepository;
 
    @Override
    public void run(String... args) throws Exception {
@@ -54,7 +60,7 @@ public class TesteConfig  implements CommandLineRunner {
         ProductModel p5 = new ProductModel(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
-        
+
          p1.getCategories().add(cat2);
          p2.getCategories().add(cat1);
          p2.getCategories().add(cat3);
@@ -67,15 +73,25 @@ public class TesteConfig  implements CommandLineRunner {
        UserModel u1 = new UserModel(null, "John Doe", "john@gmail.com", "123456789", "123456");
        UserModel u2 = new UserModel(null, "Maria Silva", "maria@gmail.com", "987654321", "654321");
        UserModel u3 = new UserModel(null, "Pedro Santos", "pedro@gmail.com", "555666777", "789123");
-       
-       userRepository.saveAll(Arrays.asList(u1, u2, u3));
-       
+       UserModel u4 = new UserModel(null, "Ana Costa", "ana@gmail.com", "111222333", "321654");
+
+       userRepository.saveAll(Arrays.asList(u1, u2, u3, u4));
+
        // Depois, criar os pedidos usando os usuários
        OrderModel o1 = new OrderModel(null, LocalDateTime.of(2019, 6, 20, 16, 53),OrderStatus.PAID, u1);
        OrderModel o2 = new OrderModel(null, LocalDateTime.of(2019, 7, 21, 3, 42),OrderStatus.DELIVERED, u2);
        OrderModel o3 = new OrderModel(null, LocalDateTime.of(2019, 7, 22, 15, 21),OrderStatus.WAITING_PAYMENT, u1);
+       OrderModel o4 = new OrderModel(null, LocalDateTime.of(2019, 7, 23, 19, 15),OrderStatus.CANCELED, u3);
 
-       orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+       orderRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
+
+        OrderItemModel oi1 = new OrderItemModel(o1, p1, 2, p1.getPrice());
+        OrderItemModel oi2 = new OrderItemModel(o1, p3, 1, p3.getPrice());
+        OrderItemModel oi3 = new OrderItemModel(o2, p4, 2, p4.getPrice());
+        OrderItemModel oi4 = new OrderItemModel(o3, p5, 2, p5.getPrice());
+        OrderItemModel oi5 = new OrderItemModel(o4, p2, 2, p2.getPrice());
+
+       orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4, oi5));
    }
 
 }

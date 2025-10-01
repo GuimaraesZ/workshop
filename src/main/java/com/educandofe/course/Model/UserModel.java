@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -27,7 +27,7 @@ public class UserModel implements Serializable {
     private String phone;
     private String password;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<OrderModel> orders = new ArrayList<>();
 
