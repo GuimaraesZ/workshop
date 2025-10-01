@@ -21,6 +21,7 @@ import com.educandofe.course.repositorys.ProductRepository;
 import com.educandofe.course.Model.ProductModel;
 import com.educandofe.course.Model.OrderItemModel;
 import com.educandofe.course.repositorys.OrderItemRepository;
+import com.educandofe.course.Model.PaymentsModel;
 
 
 
@@ -92,6 +93,10 @@ public class TesteConfig  implements CommandLineRunner {
         OrderItemModel oi5 = new OrderItemModel(o4, p2, 2, p2.getPrice());
 
        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4, oi5));
+
+       PaymentsModel pay1 = new PaymentsModel(null, LocalDateTime.of(2019, 6, 22, 18, 53), o1);
+       o1.setPayment(pay1);
+       orderRepository.save(o1);
    }
 
 }

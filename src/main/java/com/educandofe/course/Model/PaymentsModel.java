@@ -1,60 +1,53 @@
 package com.educandofe.course.Model;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.io.Serializable;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.util.Set;
-
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.HashSet;
-
-import jakarta.persistence.ManyToMany;
 @Entity
-@Table(name = "tb_category")
-public class CategoryModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class PaymentsModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private LocalDateTime moment;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "categories")
-    private Set<ProductModel> products = new HashSet<>();
+    @OneToOne
+    @MapsId
+    private OrderModel order;
 
-    public CategoryModel() {
-        super();
+    public PaymentsModel() {
     }
 
-    public CategoryModel(Long id, String name) {
+    public PaymentsModel(Long id, LocalDateTime moment, OrderModel order) {
         this.id = id;
-        this.name = name;
+        this.moment = moment;
+        this.order = order;
     }
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
+    public LocalDateTime getMoment() {
+        return moment;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setMoment(LocalDateTime moment) {
+        this.moment = moment;
     }
-
-    public Set<ProductModel> getProducts() {
-        return products;
+    @JsonIgnore
+    public OrderModel getOrder() {
+        return order;
+    }
+    public void setOrder(OrderModel order) {
+        this.order = order;
     }
 
     @Override
@@ -64,7 +57,7 @@ public class CategoryModel implements Serializable {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -73,7 +66,7 @@ public class CategoryModel implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CategoryModel other = (CategoryModel) obj;
+        PaymentsModel other = (PaymentsModel) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -81,4 +74,6 @@ public class CategoryModel implements Serializable {
             return false;
         return true;
     }
+
+
 }
