@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.educandofe.course.repositorys.OrderRepository;
 import com.educandofe.course.repositorys.UserRepository;
@@ -26,6 +27,7 @@ import com.educandofe.course.Model.PaymentsModel;
 
 
 @Configuration
+@Profile("test")
 public class TesteConfig  implements CommandLineRunner {
     
    @Autowired

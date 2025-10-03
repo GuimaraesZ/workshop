@@ -1,11 +1,13 @@
 package com.educandofe.course.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.educandofe.course.repositorys.UserRepository;
-import com.educandofe.course.Model.UserModel;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.educandofe.course.Model.UserModel;
+import com.educandofe.course.repositorys.UserRepository;
 
 @Service
 public class UserService {
@@ -20,6 +22,10 @@ public class UserService {
     public UserModel findById(Long id) {
         Optional<UserModel> user = userRepository.findById(id);
         return user.get();
+    }
+    
+    public UserModel insert(UserModel user) {
+        return userRepository.save(user);
     }
 
 
