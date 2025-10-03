@@ -1,11 +1,12 @@
 package com.educandofe.course.Model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.EmbeddedId;
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.educandofe.course.Model.pk.OrderItemPk;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -28,15 +29,20 @@ public class OrderItemModel implements Serializable {
         this.quantity = quantity;
         this.price = price;
     }
+
     public Integer getQuantity() {
         return quantity;
     }
+    
     public void setQuantity(Integer quantity) {
+      
         this.quantity = quantity;
     }
+
     public Double getPrice() {
         return price;
     }
+
     public void setPrice(Double price) {
         this.price = price;
     }
@@ -44,6 +50,7 @@ public class OrderItemModel implements Serializable {
     public OrderItemPk getId() {
         return id;
     }
+
     public void setId(OrderItemPk id) {
         this.id = id;
     }
@@ -63,6 +70,10 @@ public class OrderItemModel implements Serializable {
     
     public void setOrder(OrderModel order) {
         id.setOrder(order);
+    }
+
+    public Double getSubTotal() {
+        return price * quantity;
     }
 
     @Override
