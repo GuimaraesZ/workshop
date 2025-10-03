@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.educandofe.course.Model.UserModel;
 import com.educandofe.course.repositorys.UserRepository;
 
+
 @Service
 public class UserService {
 
@@ -28,6 +29,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 
 }
