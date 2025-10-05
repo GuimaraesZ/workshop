@@ -1,4 +1,4 @@
-# 🛍️ Loja da Rosy - E-Commerce Full Stack
+# 🛍️ E-Commerce Full Stack
 
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen)
