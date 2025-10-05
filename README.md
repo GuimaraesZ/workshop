@@ -9,19 +9,7 @@
 
 Sistema de e-commerce completo com **backend Spring Boot** e **frontend React**, implementando autenticação JWT, gerenciamento de produtos, carrinho de compras, checkout, upload de imagens e painel administrativo.
 
-## 📸 Screenshots
-
-### 🏠 Dashboard do Usuário
-![Dashboard](docs/screenshots/dashboard.png)
-*Painel principal com resumo de pedidos, carrinho e promoções*
-
-### 🛒 Catálogo de Produtos
-![Loja](docs/screenshots/loja.png)
-*Catálogo com produtos O Boticário, filtros e sistema de avaliações*
-
 ## 📋 Índice
-
-- [Screenshots](#-screenshots)
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias](#️-tecnologias)
