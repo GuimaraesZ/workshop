@@ -861,6 +861,7 @@ Para suporte, você pode:
 
 ⭐ **Se este projeto te ajudou, considere dar uma estrela no GitHub!** ⭐
 
-**Loja da Rosy** © 2025 - Desenvolvido com ❤️ por Felipe Guimarães
+ © 2025 - Desenvolvido por Felipe Guimarães.
+ Pessoal, maior parte do front eu usei o sonnet 4.0 para me ajudar, minha area é o back mesmo.
 
 </div>
