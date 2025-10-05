@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  body {
+    @apply bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50;
+    @apply antialiased;
+  }
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100 dark:bg-neutral-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-400 dark:bg-neutral-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+}
+
+@layer components {
+  /* Buttons - Modern Premium Style */
+  .btn {
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300;
+    @apply shadow-elevation-1 hover:shadow-elevation-2;
+    @apply transform hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white;
+    @apply hover:bg-primary-600;
+    @apply dark:bg-primary-600 dark:hover:bg-primary-700;
+  }
+
+  .btn-accent {
+    @apply bg-accent-500 text-neutral-900 font-semibold;
+    @apply hover:bg-accent-600;
+    @apply dark:bg-accent-600 dark:hover:bg-accent-700;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50;
+    @apply border-2 border-neutral-400 dark:border-neutral-600;
+    @apply hover:bg-neutral-100 dark:hover:bg-neutral-700;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-accent-600 to-accent-500;
+    @apply text-white hover:from-accent-700 hover:to-accent-600;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-neutral-700 dark:text-neutral-300;
+    @apply hover:bg-neutral-100 dark:hover:bg-neutral-800;
+    @apply shadow-none;
+  }
+
+  /* Cards - Elevated with Blur */
+  .card {
+    @apply bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl;
+    @apply rounded-2xl shadow-elevation-2 p-6;
+    @apply border border-neutral-200 dark:border-neutral-700;
+    @apply hover:shadow-elevation-3 transition-shadow duration-300;
+  }
+
+  .card-glass {
+    @apply bg-white/40 dark:bg-neutral-900/40 backdrop-blur-2xl;
+    @apply rounded-2xl shadow-glass dark:shadow-glass-dark;
+    @apply border border-white/20 dark:border-neutral-700/50;
+  }
+
+  /* Input - Modern with Focus Ring */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl;
+    @apply bg-white dark:bg-neutral-800;
+    @apply border-2 border-neutral-300 dark:border-neutral-600;
+    @apply text-neutral-900 dark:text-neutral-50;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400;
+    @apply focus:border-transparent;
+    @apply placeholder-neutral-400 dark:placeholder-neutral-500;
+    @apply transition-all duration-200;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold;
+  }
+
+  /* Link Hover Effect */
+  .link {
+    @apply text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300;
+    @apply underline-offset-4 hover:underline transition-all duration-200;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-neutral-300 dark:border-neutral-700;
+  }
+
+  /* Glass Header/Nav */
+  .nav-glass {
+    @apply bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl;
+    @apply border-b border-neutral-300/50 dark:border-neutral-700/50;
+    @apply shadow-sm;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    @apply bg-white dark:bg-neutral-900;
+    @apply border-r border-neutral-300 dark:border-neutral-700;
+    @apply shadow-elevation-1;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl;
+    @apply text-neutral-700 dark:text-neutral-300;
+    @apply hover:bg-neutral-100 dark:hover:bg-neutral-800;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+  }
+
+  .sidebar-item-active {
+    @apply bg-primary-50 dark:bg-primary-900/20;
+    @apply text-primary-700 dark:text-primary-400;
+    @apply font-semibold;
+    @apply border-l-4 border-primary-600 dark:border-primary-400;
+  }
+
+  /* Animations */
+  .animate-entrance {
+    @apply animate-fade-in;
+  }
+
+  .animate-hover-lift {
+    @apply hover:-translate-y-1 hover:shadow-elevation-3 transition-all duration-300;
+  }
+
+  /* Product Card Specific */
+  .product-card {
+    @apply card cursor-pointer animate-hover-lift;
+    @apply overflow-hidden;
+  }
+
+  .product-card img {
+    @apply transition-transform duration-300;
+  }
+
+  .product-card:hover img {
+    @apply scale-110;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-xl bg-opacity-80;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+

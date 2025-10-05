@@ -1,0 +1,7 @@
+# Execute este comando no terminal PowerShell:
+
+cd d:\tudosetodos\course\frontend
+npm install lucide-react
+
+# Depois reinicie o servidor de desenvolvimento:
+npm run dev
