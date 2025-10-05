@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.HashSet;
 import jakarta.persistence.ManyToMany;
@@ -18,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "tb_product")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductModel implements Serializable {
     private static final long serialVersionUID = 1L;
     
