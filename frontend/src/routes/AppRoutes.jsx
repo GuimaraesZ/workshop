@@ -8,13 +8,17 @@ import Shop from '../pages/Shop'
 import ProductDetails from '../pages/ProductDetails'
 import CategoryProducts from '../pages/CategoryProducts'
 import Cart from '../pages/Cart'
-import Checkout from '../pages/Checkout'
+import CheckoutLayout from '../pages/checkout/CheckoutLayout'
+import CartStep from '../pages/checkout/CartStep'
+import AddressStep from '../pages/checkout/AddressStep'
+import PaymentStep from '../pages/checkout/PaymentStep'
 import OrderConfirmation from '../pages/OrderConfirmation'
 import OrderDetails from '../pages/OrderDetails'
 import Orders from '../pages/Orders'
 import Login from '../pages/Login'
 import AdminLogin from '../pages/AdminLogin'
 import Profile from '../pages/Profile'
+import Favorites from '../pages/Favorites'
 import Manager from '../pages/Manager'
 import NotFound from '../pages/NotFound'
 
@@ -64,15 +68,20 @@ function AppRoutes() {
         {/* Carrinho de compras */}
         <Route path="/cart" element={<Cart />} />
         
-        {/* Finalizar pedido - ROTA PROTEGIDA */}
+        {/* Checkout - Multi-step - ROTA PROTEGIDA */}
         <Route 
           path="/checkout" 
           element={
             <ProtectedRoute>
-              <Checkout />
+              <CheckoutLayout />
             </ProtectedRoute>
-          } 
-        />
+          }
+        >
+          <Route index element={<CartStep />} />
+          <Route path="cart" element={<CartStep />} />
+          <Route path="address" element={<AddressStep />} />
+          <Route path="payment" element={<PaymentStep />} />
+        </Route>
         
         {/* Confirmação de pedido - ROTA PROTEGIDA */}
         <Route 
@@ -100,6 +109,16 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* Favoritos - ROTA PROTEGIDA */}
+        <Route 
+          path="/favorites" 
+          element={
+            <ProtectedRoute>
+              <Favorites />
             </ProtectedRoute>
           } 
         />

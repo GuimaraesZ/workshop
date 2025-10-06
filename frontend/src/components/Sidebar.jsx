@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { 
   LayoutDashboard,
@@ -15,25 +14,19 @@ import {
 } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useSidebar } from '../contexts/SidebarContext'
+import { useFavorites } from '../contexts/FavoritesContext'
 
 export default function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    // Carregar estado do localStorage
-    const saved = localStorage.getItem('sidebarCollapsed')
-    return saved ? JSON.parse(saved) : false
-  })
-  
+  const { isCollapsed, toggleSidebar } = useSidebar()
   const location = useLocation()
   const navigate = useNavigate()
   const { getTotalItems } = useCart()
+  const { getFavoritesCount } = useFavorites()
   const { isAuthenticated, logout, user } = useAuth()
 
   const cartItemsCount = getTotalItems()
-
-  // Salvar estado no localStorage
-  useEffect(() => {
-    localStorage.setItem('sidebarCollapsed', JSON.stringify(isCollapsed))
-  }, [isCollapsed])
+  const favoritesCount = getFavoritesCount()
 
   // Menu principal - área do cliente
   const mainMenuItems = [
@@ -79,7 +72,8 @@ export default function Sidebar() {
       icon: Heart, 
       label: 'Favoritos', 
       path: '/favorites',
-      description: 'Lista de desejos'
+      description: 'Lista de desejos',
+      badge: favoritesCount > 0 ? favoritesCount : null
     },
   ]
 
@@ -116,23 +110,23 @@ export default function Sidebar() {
           className={`
             sidebar-item relative
             ${active ? 'sidebar-item-active' : ''}
-            ${isCollapsed ? 'justify-center px-0' : ''}
+            ${isCollapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
           `}
           title={isCollapsed ? item.label : item.description}
         >
-          <Icon size={22} className={isCollapsed ? '' : 'flex-shrink-0'} />
+          <Icon size={20} className={isCollapsed ? '' : 'flex-shrink-0'} />
           
           {!isCollapsed && (
-            <span className="animate-fade-in flex-1">{item.label}</span>
+            <span className="animate-fade-in flex-1 text-sm">{item.label}</span>
           )}
           
           {/* Badge */}
           {item.badge && (
             <span className={`
-              flex items-center justify-center min-w-[20px] h-5 px-1.5
+              flex items-center justify-center min-w-[18px] h-[18px] px-1
               rounded-full text-xs font-bold
               bg-accent-500 text-neutral-900
-              ${isCollapsed ? 'absolute -top-1 -right-1' : ''}
+              ${isCollapsed ? 'absolute -top-0.5 -right-0.5' : ''}
             `}>
               {item.badge > 99 ? '99+' : item.badge}
             </span>
@@ -153,13 +147,13 @@ export default function Sidebar() {
           border-r border-neutral-300 dark:border-neutral-700
           shadow-lg
           transition-all duration-300 ease-in-out z-40
-          ${isCollapsed ? 'w-20' : 'w-72'}
+          ${isCollapsed ? 'w-16' : 'w-64'}
         `}
       >
         {/* Logo */}
-        <div className="h-20 flex items-center justify-between px-6 border-b border-neutral-300 dark:border-neutral-700">
+        <div className={`h-16 flex items-center justify-between border-b border-neutral-300 dark:border-neutral-700 ${isCollapsed ? 'px-2' : 'px-4'}`}>
           {!isCollapsed && (
-            <Link to="/" className="text-2xl font-bold text-primary-500 animate-fade-in">
+            <Link to="/" className="text-xl font-bold text-primary-500 animate-fade-in truncate">
               🛍️ {user?.storeName || 'E-Commerce'}
             </Link>
           )}
@@ -171,11 +165,11 @@ export default function Sidebar() {
         </div>
 
         {/* Main Navigation */}
-        <nav className="flex-1 py-6 overflow-y-auto scrollbar-hide">
+        <nav className="flex-1 py-4 overflow-y-auto scrollbar-hide">
           {/* Menu Principal */}
-          <div className="px-3 mb-2">
+          <div className={`${isCollapsed ? 'px-2' : 'px-3'} mb-2`}>
             {!isCollapsed && (
-              <h3 className="px-4 mb-2 text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              <h3 className="px-3 mb-2 text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 Menu Principal
               </h3>
             )}
@@ -185,14 +179,14 @@ export default function Sidebar() {
           </div>
 
           {/* Divider */}
-          <div className="my-6 mx-3">
+          <div className={`my-4 ${isCollapsed ? 'mx-2' : 'mx-3'}`}>
             <div className="divider"></div>
           </div>
 
           {/* Menu Secundário */}
-          <div className="px-3">
+          <div className={`${isCollapsed ? 'px-2' : 'px-3'}`}>
             {!isCollapsed && (
-              <h3 className="px-4 mb-2 text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              <h3 className="px-3 mb-2 text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 Ajuda
               </h3>
             )}
@@ -203,13 +197,13 @@ export default function Sidebar() {
         </nav>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-neutral-300 dark:border-neutral-700 space-y-2">
+        <div className={`p-3 border-t border-neutral-300 dark:border-neutral-700`}>
           {/* Logout Button */}
           {isAuthenticated && (
             <button
               onClick={handleLogout}
               className={`
-                w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
                 text-red-600 dark:text-red-400
                 hover:bg-red-50 dark:hover:bg-red-900/20
                 transition-all duration-200
@@ -227,7 +221,7 @@ export default function Sidebar() {
 
         {/* Toggle Button - Posicionado no meio da lateral direita */}
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={toggleSidebar}
           className={`
             absolute top-1/2 -translate-y-1/2 -right-3
             w-6 h-12 flex items-center justify-center
@@ -247,9 +241,6 @@ export default function Sidebar() {
           )}
         </button>
       </aside>
-
-      {/* Spacer for Desktop */}
-      <div className={`hidden lg:block transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-72'}`} />
     </>
   )
 }

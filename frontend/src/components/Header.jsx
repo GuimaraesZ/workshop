@@ -1,6 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
 import ThemeToggle from './ThemeToggle'
@@ -9,10 +9,43 @@ function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { getTotalItems } = useCart()
   const { user, isAuthenticated, logout } = useAuth()
   
   const totalItems = getTotalItems()
+
+  // Mapeamento de rotas para títulos
+  const pageTitle = useMemo(() => {
+    const path = location.pathname
+    const titles = {
+      '/': 'Dashboard',
+      '/shop': 'Loja',
+      '/products': 'Produtos',
+      '/cart': 'Carrinho',
+      '/checkout': 'Finalizar Compra',
+      '/checkout/cart': 'Carrinho',
+      '/checkout/address': 'Endereço de Entrega',
+      '/checkout/payment': 'Pagamento',
+      '/orders': 'Meus Pedidos',
+      '/profile': 'Meu Perfil',
+      '/addresses': 'Endereços',
+      '/favorites': 'Favoritos',
+      '/support': 'Suporte',
+      '/admin': 'Administração',
+      '/admin/products': 'Gerenciar Produtos',
+      '/admin/categories': 'Gerenciar Categorias',
+      '/admin/users': 'Gerenciar Usuários',
+    }
+
+    // Rotas dinâmicas
+    if (path.startsWith('/product/')) return 'Detalhes do Produto'
+    if (path.startsWith('/categories/')) return 'Categoria'
+    if (path.startsWith('/orders/')) return 'Detalhes do Pedido'
+    if (path.startsWith('/order-confirmation/')) return 'Pedido Confirmado'
+
+    return titles[path] || 'Página'
+  }, [location.pathname])
 
   const handleLogout = () => {
     logout()
@@ -23,27 +56,14 @@ function Header() {
   return (
     <header className="bg-white dark:bg-neutral-900 border-b border-neutral-300 dark:border-neutral-700 sticky top-0 z-50 shadow-sm">
       <div className="container-custom">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
-            🛍️ {user?.storeName || 'E-Commerce'}
-          </Link>
+        <div className="flex items-center justify-center relative h-[3.93rem]">
+          {/* Page Title - Slightly left of center with gradient */}
+          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 dark:from-primary-500 dark:to-primary-300 bg-clip-text text-transparent mr-32">
+            {pageTitle}
+          </h1>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors font-medium">
-              Dashboard
-            </Link>
-            <Link to="/products" className="text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors font-medium">
-              Loja
-            </Link>
-            <Link to="/categories/1" className="text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors font-medium">
-              Categorias
-            </Link>
-          </nav>
-
-          {/* Actions */}
-          <div className="flex items-center space-x-3">
+          {/* Actions - Absolute positioned to the right */}
+          <div className="absolute right-0 flex items-center space-x-3">
             {/* Theme Toggle */}
             <ThemeToggle />
             
@@ -126,7 +146,7 @@ function Header() {
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="hidden md:block btn btn-primary text-sm py-2"
+                className="btn btn-primary text-sm py-2"
               >
                 Entrar
               </button>
@@ -135,7 +155,7 @@ function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-neutral-700 dark:text-neutral-300"
+              className="lg:hidden p-2 text-neutral-700 dark:text-neutral-300"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -144,20 +164,27 @@ function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 space-y-2 border-t border-neutral-300 dark:border-neutral-700 animate-fade-in">
+          <nav className="lg:hidden py-4 space-y-2 border-t border-neutral-300 dark:border-neutral-700 animate-fade-in">
             <Link
               to="/"
               className="block py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Produtos
+              Dashboard
             </Link>
             <Link
-              to="/categories/1"
+              to="/shop"
               className="block py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Categorias
+              Loja
+            </Link>
+            <Link
+              to="/orders"
+              className="block py-2 text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Meus Pedidos
             </Link>
             
             {isAuthenticated ? (

@@ -39,7 +39,7 @@ export default function Carousel({ images = [], interval = 7500 }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Slides */}
-      <div className="relative aspect-[21/9] sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[21/7]">
+      <div className="relative aspect-[21/8] sm:aspect-[21/6] md:aspect-[21/5] lg:aspect-[21/4]">
         {images.map((image, index) => (
           <div
             key={index}

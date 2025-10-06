@@ -51,12 +51,17 @@ function Cart() {
             <div key={item.product.id} className="card">
               <div className="flex gap-4">
                 {/* Imagem do Produto */}
-                <div className="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center">
+                <div className="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
                   {item.product.imgUrl ? (
                     <img 
-                      src={item.product.imgUrl} 
+                      src={item.product.imgUrl.startsWith('http') ? item.product.imgUrl : `http://localhost:8080${item.product.imgUrl}`}
                       alt={item.product.name}
                       className="w-full h-full object-cover rounded-lg"
+                      onError={(e) => {
+                        console.error('Erro ao carregar imagem:', item.product.imgUrl);
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Produto';
+                      }}
                     />
                   ) : (
                     <span className="text-gray-400 text-3xl">📦</span>
@@ -147,7 +152,7 @@ function Cart() {
             </div>
 
             <Link 
-              to="/checkout"
+              to="/checkout/cart"
               className="btn btn-primary w-full py-3 flex items-center justify-center gap-2 mb-3"
             >
               <ShoppingBag size={20} />

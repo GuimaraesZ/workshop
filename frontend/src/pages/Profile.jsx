@@ -406,7 +406,7 @@ function Profile() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                     />
                   ) : (
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.name || '-'}</p>
@@ -423,7 +423,7 @@ function Profile() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                     />
                   ) : (
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.email || '-'}</p>
@@ -441,7 +441,7 @@ function Profile() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="(00) 00000-0000"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                     />
                   ) : (
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.phone || '-'}</p>
@@ -458,7 +458,7 @@ function Profile() {
                       name="birthDate"
                       value={formData.birthDate}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                     />
                   ) : (
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">
@@ -478,7 +478,7 @@ function Profile() {
                       value={formData.storeName}
                       onChange={handleInputChange}
                       placeholder="Ex: 🛍️ Loja da Maria"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                     />
                   ) : (
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.storeName || '-'}</p>
@@ -504,7 +504,7 @@ function Profile() {
                         value={formData.zipCode}
                         onChange={handleInputChange}
                         placeholder="00000-000"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.zipCode || '-'}</p>
@@ -522,7 +522,7 @@ function Profile() {
                         value={formData.address}
                         onChange={handleInputChange}
                         placeholder="Nome da rua"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.address || '-'}</p>
@@ -540,7 +540,7 @@ function Profile() {
                         value={formData.houseNumber}
                         onChange={handleInputChange}
                         placeholder="Nº"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.houseNumber || '-'}</p>
@@ -558,7 +558,7 @@ function Profile() {
                         value={formData.neighborhood}
                         onChange={handleInputChange}
                         placeholder="Bairro"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.neighborhood || '-'}</p>
@@ -576,7 +576,7 @@ function Profile() {
                         value={formData.complement}
                         onChange={handleInputChange}
                         placeholder="Apto, bloco, etc (opcional)"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.complement || '-'}</p>
@@ -593,7 +593,7 @@ function Profile() {
                         name="city"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.city || '-'}</p>
@@ -612,7 +612,7 @@ function Profile() {
                         onChange={handleInputChange}
                         placeholder="UF"
                         maxLength="2"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                       />
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-800">{formData.state || '-'}</p>
@@ -684,7 +684,7 @@ function Profile() {
                     name="currentPassword"
                     value={passwordData.currentPassword}
                     onChange={handlePasswordChange}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                   />
                   <button
                     type="button"
@@ -706,7 +706,7 @@ function Profile() {
                     name="newPassword"
                     value={passwordData.newPassword}
                     onChange={handlePasswordChange}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                   />
                   <button
                     type="button"
@@ -728,7 +728,7 @@ function Profile() {
                     name="confirmPassword"
                     value={passwordData.confirmPassword}
                     onChange={handlePasswordChange}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
                   />
                   <button
                     type="button"

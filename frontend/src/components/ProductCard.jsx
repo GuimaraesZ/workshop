@@ -19,9 +19,13 @@ function ProductCard({ product }) {
       <div className="bg-gray-200 h-48 rounded-md mb-4 flex items-center justify-center overflow-hidden">
         {product.imgUrl ? (
           <img 
-            src={product.imgUrl} 
+            src={product.imgUrl.startsWith('http') ? product.imgUrl : `http://localhost:8080${product.imgUrl}`}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Produto';
+            }}
           />
         ) : (
           <span className="text-gray-400">📦 Sem imagem</span>

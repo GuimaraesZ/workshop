@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ShoppingCart, Heart, Star } from 'lucide-react'
+import { ShoppingCart, Heart, Star, Filter, X } from 'lucide-react'
 import Carousel from '../components/Carousel'
 import { getProducts } from '../services/productService'
 import { useCart } from '../contexts/CartContext'
+import { useFavorites } from '../contexts/FavoritesContext'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Shop() {
   const [products, setProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [currentPage, setCurrentPage] = useState(0)
   const [pageSize] = useState(24) // 24 produtos por página (6x4 grid)
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [categories, setCategories] = useState([])
   const navigate = useNavigate()
   const { addToCart } = useCart()
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const { isAuthenticated } = useAuth()
 
   // Imagens do carousel
   const carouselImages = [
@@ -44,25 +51,31 @@ export default function Shop() {
 
   useEffect(() => {
     loadProducts()
-  }, [currentPage]) // Recarregar quando a página mudar
+  }, []) // Carregar produtos uma vez
+
+  useEffect(() => {
+    applyFilters()
+  }, [products, selectedCategory, currentPage])
 
   const loadProducts = async () => {
     try {
       setLoading(true)
       setError(null)
       
-      // Carregar produtos do banco de dados com paginação
-      const start = currentPage * pageSize
+      // Carregar produtos do banco de dados
       const response = await fetch(`/api/products`)
       
       if (response.ok) {
         const allProducts = await response.json()
         
-        // Aplicar paginação manual
-        const paginatedProducts = allProducts.slice(start, start + pageSize)
+        // Extrair categorias únicas
+        const uniqueCategories = [...new Set(allProducts.flatMap(p => 
+          p.categories ? p.categories.map(c => c.name) : []
+        ))].filter(Boolean)
+        setCategories(uniqueCategories)
         
         // Converter para o formato esperado
-        const convertedProducts = paginatedProducts.map((item) => ({
+        const convertedProducts = allProducts.map((item) => ({
           id: item.id,
           name: item.name,
           price: item.price || 0,
@@ -71,7 +84,7 @@ export default function Shop() {
             : 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Produto',
           description: item.description || 'Produto O Boticário',
           rating: 4.5,
-          category: 'Perfumes'
+          categories: item.categories || []
         }))
         
         setProducts(convertedProducts)
@@ -84,6 +97,45 @@ export default function Shop() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const applyFilters = () => {
+    let filtered = [...products]
+
+    // Filtrar por categoria
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(product => 
+        product.categories.some(cat => cat.name === selectedCategory)
+      )
+    }
+
+    // Aplicar paginação
+    const start = currentPage * pageSize
+    const paginatedProducts = filtered.slice(start, start + pageSize)
+    
+    setFilteredProducts(paginatedProducts)
+  }
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category)
+    setCurrentPage(0) // Reset para primeira página
+  }
+
+  const clearFilters = () => {
+    setSelectedCategory('all')
+    setCurrentPage(0)
+  }
+
+  const getTotalFilteredProducts = () => {
+    let filtered = [...products]
+
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(product => 
+        product.categories.some(cat => cat.name === selectedCategory)
+      )
+    }
+
+    return filtered.length
   }
 
   const handlePreviousPage = () => {
@@ -102,6 +154,17 @@ export default function Shop() {
     addToCart(product)
   }
 
+  const handleToggleFavorite = (e, product) => {
+    e.stopPropagation() // Evitar que o clique abra os detalhes do produto
+    
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+    
+    toggleFavorite(product)
+  }
+
   const handleViewDetails = (productId) => {
     navigate(`/products/${productId}`)
   }
@@ -117,22 +180,45 @@ export default function Shop() {
       <Carousel images={carouselImages} interval={7500} />
 
       {/* Products Section */}
-      <div className="container-custom py-12">
-        <div className="mb-8 flex items-center justify-between">
+      <div className="container-custom py-6">
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">
               Produtos O Boticário
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Perfumes e cosméticos selecionados para você
+              {getTotalFilteredProducts()} produtos encontrados
             </p>
           </div>
-          {/* Indicador de página */}
-          {!loading && !error && products.length > 0 && (
-            <div className="text-sm text-neutral-600 dark:text-neutral-400">
-              Página {currentPage + 1}
-            </div>
-          )}
+          
+          {/* Filtros de Categoria e Indicador de Página */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            {/* Filtro de Categoria */}
+            {!loading && !error && (
+              <div className="flex items-center gap-2">
+                <Filter size={18} className="text-neutral-600 dark:text-neutral-400" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  className="px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-full text-sm font-medium text-neutral-700 dark:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 cursor-pointer"
+                >
+                  <option value="all">Todas as Categorias</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            
+            {/* Indicador de página */}
+            {!loading && !error && filteredProducts.length > 0 && (
+              <div className="text-sm text-neutral-600 dark:text-neutral-400 font-medium whitespace-nowrap">
+                Página {currentPage + 1}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Loading State */}
@@ -165,7 +251,7 @@ export default function Shop() {
         {!loading && !error && (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
               <div
                 key={product.id}
                 className="card-elevated group hover:shadow-2xl transition-all duration-300"
@@ -175,24 +261,37 @@ export default function Shop() {
                   <img
                     src={product.imgUrl || 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Produto'}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer"
                     onError={handleImageError}
+                    onClick={() => handleViewDetails(product.id)}
                     loading="lazy"
                   />
                   
                   {/* Favorite Button */}
                   <button
-                    className="absolute top-3 right-3 p-2 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-neutral-800 transition-colors shadow-lg opacity-0 group-hover:opacity-100"
-                    aria-label="Adicionar aos favoritos"
+                    onClick={(e) => handleToggleFavorite(e, product)}
+                    className={`absolute top-3 right-3 p-2.5 backdrop-blur-sm rounded-full transition-all duration-300 shadow-lg z-10 hover:scale-110 ${
+                      isFavorite(product.id)
+                        ? 'bg-yellow-500 hover:bg-yellow-600 opacity-100'
+                        : 'bg-white/80 dark:bg-neutral-800/80 hover:bg-white dark:hover:bg-neutral-900 opacity-0 group-hover:opacity-100'
+                    }`}
+                    aria-label={isFavorite(product.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
                   >
-                    <Heart size={18} className="text-neutral-600 dark:text-neutral-300" />
+                    <Heart 
+                      size={16} 
+                      className={`transition-all ${
+                        isFavorite(product.id)
+                          ? 'text-white fill-white'
+                          : 'text-neutral-600 dark:text-neutral-300 hover:text-red-500 dark:hover:text-red-400'
+                      }`}
+                    />
                   </button>
 
                   {/* Quick View Overlay */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                     <button
                       onClick={() => handleViewDetails(product.id)}
-                      className="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                      className="px-3 py-1.5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform translate-y-4 group-hover:translate-y-0 pointer-events-auto text-[10px] uppercase tracking-wide"
                     >
                       Ver Detalhes
                     </button>
@@ -201,7 +300,7 @@ export default function Shop() {
 
                 {/* Product Info */}
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-neutral-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  <h3 className="font-semibold truncate text-neutral-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                     {product.name}
                   </h3>
                   
@@ -238,10 +337,10 @@ export default function Shop() {
                   {/* Add to Cart Button */}
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="btn-primary w-full flex items-center justify-center gap-2 mt-4"
+                    className="w-full flex items-center justify-center gap-1.5 mt-4 px-3 py-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 overflow-hidden"
                   >
-                    <ShoppingCart size={18} />
-                    Adicionar ao Carrinho
+                    <ShoppingCart size={16} className="flex-shrink-0" />
+                    <span className="text-xs uppercase tracking-wide truncate">Adicionar</span>
                   </button>
                 </div>
               </div>
@@ -264,7 +363,7 @@ export default function Shop() {
               
               <button
                 onClick={handleNextPage}
-                disabled={products.length < pageSize || loading}
+                disabled={filteredProducts.length < pageSize || loading}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 Próximo <span>→</span>
@@ -274,11 +373,17 @@ export default function Shop() {
         )}
 
         {/* Empty State */}
-        {!loading && !error && products.length === 0 && (
+        {!loading && !error && filteredProducts.length === 0 && (
           <div className="card-elevated text-center py-12">
             <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Nenhum produto disponível no momento.
+              Nenhum produto encontrado com os filtros selecionados.
             </p>
+            <button
+              onClick={clearFilters}
+              className="btn-primary"
+            >
+              Limpar Filtros
+            </button>
           </div>
         )}
       </div>

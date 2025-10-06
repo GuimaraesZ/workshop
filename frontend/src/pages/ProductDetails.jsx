@@ -5,6 +5,7 @@ import { fetchProductById } from '../services/productService'
 import { useCart } from '../contexts/CartContext'
 import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
+import ImageZoom from '../components/ImageZoom'
 
 function ProductDetails() {
   const { id } = useParams()
@@ -110,18 +111,17 @@ function ProductDetails() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Imagem do Produto */}
-        <div className="card">
-          <div className="bg-gray-200 h-96 rounded-lg flex items-center justify-center overflow-hidden">
-            {product.imgUrl ? (
-              <img 
-                src={product.imgUrl.startsWith('http') ? product.imgUrl : `http://localhost:8080${product.imgUrl}`}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
+        <div className="rounded-lg overflow-hidden shadow-lg max-h-[70vh] h-auto">
+          {product.imgUrl ? (
+            <ImageZoom
+              src={product.imgUrl.startsWith('http') ? product.imgUrl : `http://localhost:8080${product.imgUrl}`}
+              alt={product.name}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center min-h-[400px]">
               <span className="text-gray-400 text-lg">📦 Sem imagem disponível</span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Informações do Produto */}
@@ -166,7 +166,7 @@ function ProductDetails() {
           <div className="flex gap-4">
             <button 
               onClick={handleAddToCart}
-              className="btn btn-primary flex items-center gap-2 flex-1"
+              className="btn btn-primary flex items-center gap-2 "
             >
               <ShoppingCart size={20} />
               Adicionar ao Carrinho
