@@ -33,7 +33,7 @@ export default function AdminLogin() {
         localStorage.setItem('user', JSON.stringify(adminUser))
         localStorage.setItem('isAdmin', 'true')
         
-        navigate('/manager')
+        navigate('/manager/dashboard')
       } else {
         setError('Credenciais de administrador inválidas')
       }
