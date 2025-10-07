@@ -19,7 +19,11 @@ import Login from '../pages/Login'
 import AdminLogin from '../pages/AdminLogin'
 import Profile from '../pages/Profile'
 import Favorites from '../pages/Favorites'
-import Manager from '../pages/Manager'
+import ManagerLayout from '../components/ManagerLayout'
+import ManagerDashboard from '../pages/manager/ManagerDashboard'
+import ManagerLojas from '../pages/manager/ManagerLojas'
+import ManagerProdutos from '../pages/manager/ManagerProdutos'
+import ManagerUsuarios from '../pages/manager/ManagerUsuarios'
 import NotFound from '../pages/NotFound'
 
 function AppRoutes() {
@@ -40,6 +44,21 @@ function AppRoutes() {
         path="/login/manager" 
         element={<AdminLogin />} 
       />
+
+      {/* Manager - Sistema Admin com rotas aninhadas */}
+      <Route 
+        path="/manager" 
+        element={
+          <AdminRoute>
+            <ManagerLayout />
+          </AdminRoute>
+        }
+      >
+        <Route path="dashboard" element={<ManagerDashboard />} />
+        <Route path="lojas" element={<ManagerLojas />} />
+        <Route path="produtos" element={<ManagerProdutos />} />
+        <Route path="usuarios" element={<ManagerUsuarios />} />
+      </Route>
 
       {/* ROTAS COM LAYOUT (Header + Sidebar) */}
       <Route path="/" element={<Layout />}>
@@ -130,16 +149,6 @@ function AppRoutes() {
             <ProtectedRoute>
               <Orders />
             </ProtectedRoute>
-          } 
-        />
-        
-        {/* Gerenciador de Produtos - ROTA PROTEGIDA ADMIN */}
-        <Route 
-          path="/manager" 
-          element={
-            <AdminRoute>
-              <Manager />
-            </AdminRoute>
           } 
         />
         

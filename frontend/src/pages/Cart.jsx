@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 
 function Cart() {
+  const navigate = useNavigate()
   const { 
     cartItems, 
     removeFromCart, 
@@ -18,6 +19,10 @@ function Cart() {
       style: 'currency',
       currency: 'BRL'
     }).format(price)
+  }
+
+  const handleProductClick = (productId) => {
+    navigate(`/products/${productId}`, { state: { from: '/cart' } })
   }
 
   if (cartItems.length === 0) {
@@ -51,7 +56,10 @@ function Cart() {
             <div key={item.product.id} className="card">
               <div className="flex gap-4">
                 {/* Imagem do Produto */}
-                <div className="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
+                <div 
+                  className="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden cursor-pointer hover:opacity-75 transition-opacity"
+                  onClick={() => handleProductClick(item.product.id)}
+                >
                   {item.product.imgUrl ? (
                     <img 
                       src={item.product.imgUrl.startsWith('http') ? item.product.imgUrl : `http://localhost:8080${item.product.imgUrl}`}
@@ -72,12 +80,12 @@ function Cart() {
                 <div className="flex-grow">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <Link 
-                        to={`/products/${item.product.id}`}
-                        className="text-lg font-semibold hover:text-primary-600 transition-colors"
+                      <button
+                        onClick={() => handleProductClick(item.product.id)}
+                        className="text-lg font-semibold hover:text-primary-600 transition-colors text-left"
                       >
                         {item.product.name}
-                      </Link>
+                      </button>
                       {item.product.categories && item.product.categories.length > 0 && (
                         <p className="text-sm text-gray-600">
                           {item.product.categories.map(cat => cat.name).join(', ')}

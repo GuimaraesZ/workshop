@@ -93,6 +93,15 @@ function Orders() {
     })
   }
 
+  const formatOrderNumber = (orderNumber) => {
+    if (!orderNumber) return '#01'
+    // Remove o prefixo #ORD- se existir e extrai apenas o número
+    const numStr = orderNumber.toString().replace(/^#?ORD-?/i, '')
+    // Converte para número e formata com zero à esquerda
+    const num = parseInt(numStr) || 1
+    return `#${num.toString().padStart(2, '0')}`
+  }
+
   const getItemsCount = (items) => {
     if (!items || items.length === 0) return 0
     return items.reduce((total, item) => total + item.quantity, 0)
@@ -465,7 +474,7 @@ function Orders() {
                       </div>
                       <div>
                         <h3 className="font-bold text-lg text-neutral-900 dark:text-neutral-50">
-                          Pedido #{order.orderNumber || order.id}
+                          Pedido {formatOrderNumber(order.orderNumber || order.id)}
                         </h3>
                         <p className="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2">
                           <Calendar className="w-4 h-4" />

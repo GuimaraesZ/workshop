@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ArrowLeft, ShoppingCart, Check } from 'lucide-react'
 import { fetchProductById } from '../services/productService'
@@ -10,6 +10,7 @@ import ImageZoom from '../components/ImageZoom'
 function ProductDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -17,6 +18,9 @@ function ProductDetails() {
   const [showSuccess, setShowSuccess] = useState(false)
   
   const { addToCart, isInCart, getItemQuantity } = useCart()
+
+  // Pegar o caminho de origem se existir
+  const fromPath = location.state?.from
 
   const loadProduct = async () => {
     try {
@@ -51,6 +55,14 @@ function ProductDetails() {
     }).format(price)
   }
 
+  const handleGoBack = () => {
+    if (fromPath) {
+      navigate(fromPath)
+    } else {
+      navigate(-1)
+    }
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -59,8 +71,8 @@ function ProductDetails() {
     return (
       <div className="container-custom py-8">
         <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+          onClick={handleGoBack}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 mb-6 transition-colors"
         >
           <ArrowLeft size={20} />
           Voltar
@@ -74,8 +86,8 @@ function ProductDetails() {
     return (
       <div className="container-custom py-8">
         <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+          onClick={handleGoBack}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 mb-6 transition-colors"
         >
           <ArrowLeft size={20} />
           Voltar
@@ -94,8 +106,8 @@ function ProductDetails() {
   return (
     <div className="container-custom py-8">
       <button
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+        onClick={handleGoBack}
+        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 mb-6 transition-colors"
       >
         <ArrowLeft size={20} />
         Voltar
