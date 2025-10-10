@@ -8,18 +8,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.educandofe.course.Model.CategoryModel;
-import com.educandofe.course.Model.Enums.OrderStatus;
-import com.educandofe.course.Model.OrderItemModel;
-import com.educandofe.course.Model.OrderModel;
-import com.educandofe.course.Model.PaymentsModel;
-import com.educandofe.course.Model.ProductModel;
-import com.educandofe.course.Model.UserModel;
-import com.educandofe.course.repositorys.CategoryRepository;
-import com.educandofe.course.repositorys.OrderItemRepository;
-import com.educandofe.course.repositorys.OrderRepository;
-import com.educandofe.course.repositorys.ProductRepository;
-import com.educandofe.course.repositorys.UserRepository;
+import com.educandofe.course.Model.category.CategoryModel;
+import com.educandofe.course.Model.common.Enums.OrderStatus;
+import com.educandofe.course.Model.order.OrderItemModel;
+import com.educandofe.course.Model.order.OrderModel;
+import com.educandofe.course.Model.payment.PaymentsModel;
+import com.educandofe.course.Model.product.ProductModel;
+import com.educandofe.course.Model.user.UserModel;
+import com.educandofe.course.repositorys.category.CategoryRepository;
+import com.educandofe.course.repositorys.order.OrderItemRepository;
+import com.educandofe.course.repositorys.order.OrderRepository;
+import com.educandofe.course.repositorys.product.ProductRepository;
+import com.educandofe.course.repositorys.user.UserRepository;
 
 
 
